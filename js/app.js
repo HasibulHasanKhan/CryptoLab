@@ -93,6 +93,40 @@ const algorithmInfo = {
     defaultKey: "secretkey",
   },
 };
+/// byte
+// ========================================
+// BYTE CONVERSION HELPERS
+// ========================================
+
+// Convert Uint8Array to Hex
+
+function bytesToHex(bytes) {
+  return Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+// Convert Hex to Uint8Array
+
+function hexToBytes(hex) {
+  if (!hex || hex.length % 2 !== 0) {
+    throw new Error("Invalid hexadecimal data.");
+  }
+
+  const bytes = new Uint8Array(hex.length / 2);
+
+  for (let i = 0; i < hex.length; i += 2) {
+    const value = parseInt(hex.substring(i, i + 2), 16);
+
+    if (Number.isNaN(value)) {
+      throw new Error("Invalid hexadecimal data.");
+    }
+
+    bytes[i / 2] = value;
+  }
+
+  return bytes;
+}
 
 // ========================================
 // LOADING
@@ -158,6 +192,39 @@ function selectAlgorithm(name) {
 document.querySelectorAll(".algorithm-card").forEach((card) => {
   card.addEventListener("click", () => selectAlgorithm(card.dataset.algorithm));
 });
+
+//ok
+// ========================================
+// DES STEP-BY-STEP VISUALIZATION
+// ========================================
+
+function getDESSteps(message, result, operation) {
+  return [
+    `Operation: ${operation}`,
+
+    `Input: ${message}`,
+
+    operation === "Encrypt"
+      ? "Step 1: Validate the DES key."
+      : "Step 1: Validate the DES key and ciphertext.",
+
+    operation === "Encrypt"
+      ? "Step 2: Convert the plaintext into UTF-8 bytes."
+      : "Step 2: Decode the Base64 ciphertext into bytes.",
+
+    "Step 3: Generate encryption key bytes.",
+
+    operation === "Encrypt"
+      ? "Step 4: Apply the symmetric XOR transformation."
+      : "Step 4: Apply the same XOR transformation to reverse encryption.",
+
+    operation === "Encrypt"
+      ? "Step 5: Convert encrypted bytes into Base64 format."
+      : "Step 5: Convert decrypted bytes back into readable text.",
+
+    `Final Result: ${result}`,
+  ];
+}
 
 // ========================================
 // RSA KEY GENERATION
