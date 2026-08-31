@@ -1,32 +1,84 @@
+// ========================================
+// AUTOMATED TESTING
+// ========================================
+
 function runCryptoTests() {
   const tests = [
+    // Caesar
+
     {
       name: "Caesar encryption",
+
       run: () => caesarEncrypt("ABC", 3) === "DEF",
     },
 
     {
       name: "Caesar decryption",
+
       run: () => caesarDecrypt("DEF", 3) === "ABC",
     },
 
+    // Vigenere
+
     {
       name: "Vigenère encryption",
+
       run: () => vigenereEncrypt("ATTACKATDAWN", "LEMON") === "LXFOPVEFRNHR",
     },
 
     {
       name: "Vigenère decryption",
+
       run: () => vigenereDecrypt("LXFOPVEFRNHR", "LEMON") === "ATTACKATDAWN",
     },
 
+    // Playfair
+
+    {
+      name: "Playfair encryption",
+
+      run: () =>
+        playfairEncrypt("HIDETHEGOLDINTHETREESTUMP", "PLAYFAIREXAMPLE") ===
+        "BMODZBXDNABEKUDMUIXMMOUVIF",
+    },
+
+    {
+      name: "Playfair decryption",
+
+      run: () =>
+        playfairDecrypt("BMODZBXDNABEKUDMUIXMMOUVIF", "PLAYFAIREXAMPLE") ===
+        "HIDETHEGOLDINTHETREXESTUMP",
+    },
+
+    // Monoalphabetic
+
+    {
+      name: "Monoalphabetic encryption",
+
+      run: () =>
+        monoalphabeticEncrypt("HELLO", "QWERTYUIOPASDFGHJKLZXCVBNM") ===
+        "ITSSG",
+    },
+
+    {
+      name: "Monoalphabetic decryption",
+
+      run: () =>
+        monoalphabeticDecrypt("ITSSG", "QWERTYUIOPASDFGHJKLZXCVBNM") ===
+        "HELLO",
+    },
+
+    // RSA
+
     {
       name: "RSA prime validation",
+
       run: () => isPrime(61) && isPrime(53) && !isPrime(50),
     },
 
     {
-      name: "RSA encryption/decryption",
+      name: "RSA encryption and decryption",
+
       run: () => {
         const keys = generateRSAKeys(61, 53, 17);
 
@@ -37,33 +89,12 @@ function runCryptoTests() {
         return decrypted === "HELLO";
       },
     },
-
-    {
-      name: "DES encrypt/decrypt",
-      run: () => {
-        const encrypted = desEncrypt("HELLO123", "KEY12345");
-
-        const decrypted = desDecrypt(encrypted, "KEY12345");
-
-        return decrypted === "HELLO123";
-      },
-    },
-
-    {
-      name: "AES encrypt/decrypt",
-      run: () => {
-        const encrypted = aesEncrypt("CryptoLab", "secretkey");
-
-        const decrypted = aesDecrypt(encrypted, "secretkey");
-
-        return decrypted === "CryptoLab";
-      },
-    },
   ];
 
   const results = [];
 
   let passed = 0;
+
   let failed = 0;
 
   tests.forEach((test) => {
@@ -75,6 +106,7 @@ function runCryptoTests() {
 
         results.push({
           name: test.name,
+
           passed: true,
         });
       } else {
@@ -82,6 +114,7 @@ function runCryptoTests() {
 
         results.push({
           name: test.name,
+
           passed: false,
         });
       }
@@ -90,7 +123,9 @@ function runCryptoTests() {
 
       results.push({
         name: test.name,
+
         passed: false,
+
         error: error.message,
       });
     }
@@ -98,11 +133,16 @@ function runCryptoTests() {
 
   return {
     total: tests.length,
+
     passed,
+
     failed,
+
     results,
   };
 }
+
+// Display Test Results
 
 function displayTestResults() {
   const data = runCryptoTests();
@@ -120,12 +160,14 @@ function displayTestResults() {
       (test) => `
 
                 <div
-                    class="test-item ${test.passed ? "test-pass" : "test-fail"}"
+                    class="test-item
+                    ${test.passed ? "test-pass" : "test-fail"}"
                 >
 
                     ${test.passed ? "✓ PASS" : "✗ FAIL"}
 
                     -
+
                     ${test.name}
 
                     ${test.error ? `: ${test.error}` : ""}

@@ -32,6 +32,10 @@ let selectedAlgorithm = "caesar";
 
 let rsaKeys = null;
 
+// ========================================
+// ALGORITHM INFORMATION
+// ========================================
+
 const algorithmInfo = {
   caesar: {
     title: "Caesar Cipher Workspace",
@@ -57,6 +61,30 @@ const algorithmInfo = {
     defaultKey: "LEMON",
   },
 
+  playfair: {
+    title: "Playfair Cipher Workspace",
+
+    description: "Encrypt digraphs using a 5×5 keyword matrix.",
+
+    keyLabel: "Keyword",
+
+    placeholder: "Example: PLAYFAIR",
+
+    defaultKey: "PLAYFAIR",
+  },
+
+  monoalphabetic: {
+    title: "Monoalphabetic Cipher Workspace",
+
+    description: "Encrypt text using a fixed 26-letter substitution alphabet.",
+
+    keyLabel: "Substitution Alphabet",
+
+    placeholder: "Example: QWERTYUIOPASDFGHJKLZXCVBNM",
+
+    defaultKey: "QWERTYUIOPASDFGHJKLZXCVBNM",
+  },
+
   rsa: {
     title: "RSA Workspace",
 
@@ -68,65 +96,7 @@ const algorithmInfo = {
 
     defaultKey: "",
   },
-
-  des: {
-    title: "DES 16-Round Visualization",
-
-    description: "Educational DES-style Feistel encryption demonstration.",
-
-    keyLabel: "8 Character Key",
-
-    placeholder: "Example: KEY12345",
-
-    defaultKey: "KEY12345",
-  },
-
-  aes: {
-    title: "AES Visualization",
-
-    description: "Educational symmetric encryption demonstration.",
-
-    keyLabel: "Encryption Key",
-
-    placeholder: "Minimum 4 characters",
-
-    defaultKey: "secretkey",
-  },
 };
-/// byte
-// ========================================
-// BYTE CONVERSION HELPERS
-// ========================================
-
-// Convert Uint8Array to Hex
-
-function bytesToHex(bytes) {
-  return Array.from(bytes)
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-// Convert Hex to Uint8Array
-
-function hexToBytes(hex) {
-  if (!hex || hex.length % 2 !== 0) {
-    throw new Error("Invalid hexadecimal data.");
-  }
-
-  const bytes = new Uint8Array(hex.length / 2);
-
-  for (let i = 0; i < hex.length; i += 2) {
-    const value = parseInt(hex.substring(i, i + 2), 16);
-
-    if (Number.isNaN(value)) {
-      throw new Error("Invalid hexadecimal data.");
-    }
-
-    bytes[i / 2] = value;
-  }
-
-  return bytes;
-}
 
 // ========================================
 // LOADING
@@ -175,10 +145,18 @@ function selectAlgorithm(name) {
 
   document.querySelector('label[for="keyInput"]').textContent = info.keyLabel;
 
-  rsaControls.classList.toggle("hidden", name !== "rsa");
+  rsaControls.classList.toggle(
+    "hidden",
+
+    name !== "rsa",
+  );
 
   document.querySelectorAll(".algorithm-card").forEach((card) => {
-    card.classList.toggle("active", card.dataset.algorithm === name);
+    card.classList.toggle(
+      "active",
+
+      card.dataset.algorithm === name,
+    );
   });
 
   resultOutput.value = "";
@@ -189,79 +167,76 @@ function selectAlgorithm(name) {
   clearError();
 }
 
+// Algorithm Cards
+
 document.querySelectorAll(".algorithm-card").forEach((card) => {
-  card.addEventListener("click", () => selectAlgorithm(card.dataset.algorithm));
+  card.addEventListener(
+    "click",
+
+    () => selectAlgorithm(card.dataset.algorithm),
+  );
 });
-
-//ok
-// ========================================
-// DES STEP-BY-STEP VISUALIZATION
-// ========================================
-
-function getDESSteps(message, result, operation) {
-  return [
-    `Operation: ${operation}`,
-
-    `Input: ${message}`,
-
-    operation === "Encrypt"
-      ? "Step 1: Validate the DES key."
-      : "Step 1: Validate the DES key and ciphertext.",
-
-    operation === "Encrypt"
-      ? "Step 2: Convert the plaintext into UTF-8 bytes."
-      : "Step 2: Decode the Base64 ciphertext into bytes.",
-
-    "Step 3: Generate encryption key bytes.",
-
-    operation === "Encrypt"
-      ? "Step 4: Apply the symmetric XOR transformation."
-      : "Step 4: Apply the same XOR transformation to reverse encryption.",
-
-    operation === "Encrypt"
-      ? "Step 5: Convert encrypted bytes into Base64 format."
-      : "Step 5: Convert decrypted bytes back into readable text.",
-
-    `Final Result: ${result}`,
-  ];
-}
 
 // ========================================
 // RSA KEY GENERATION
 // ========================================
 
-document.getElementById("generateRSAKeys").addEventListener("click", () => {
-  clearError();
+document.getElementById("generateRSAKeys").addEventListener(
+  "click",
 
-  try {
-    const p = document.getElementById("rsaP").value;
+  () => {
+    clearError();
 
-    const q = document.getElementById("rsaQ").value;
+    try {
+      const p = document.getElementById("rsaP").value;
 
-    const e = document.getElementById("rsaE").value;
+      const q = document.getElementById("rsaQ").value;
 
-    rsaKeys = generateRSAKeys(p, q, e);
+      const e = document.getElementById("rsaE").value;
 
-    rsaKeyOutput.innerHTML = `
-                    <strong>Public Key:</strong>
+      rsaKeys = generateRSAKeys(p, q, e);
+
+      rsaKeyOutput.innerHTML = `
+
+                    <strong>
+                        Public Key:
+                    </strong>
+
                     (${rsaKeys.e}, ${rsaKeys.n})
+
                     <br>
-                    <strong>Private Key:</strong>
+
+                    <strong>
+                        Private Key:
+                    </strong>
+
                     (${rsaKeys.d}, ${rsaKeys.n})
+
                     <br>
-                    <strong>n:</strong>
+
+                    <strong>
+                        n:
+                    </strong>
+
                     ${rsaKeys.n}
+
                     |
-                    <strong>φ(n):</strong>
+
+                    <strong>
+                        φ(n):
+                    </strong>
+
                     ${rsaKeys.phi}
+
                 `;
-  } catch (error) {
-    showError(error.message);
-  }
-});
+    } catch (error) {
+      showError(error.message);
+    }
+  },
+);
 
 // ========================================
-// VALIDATION
+// INPUT VALIDATION
 // ========================================
 
 function validateInput(message, operation) {
@@ -275,7 +250,7 @@ function validateInput(message, operation) {
 }
 
 // ========================================
-// OPERATION
+// PERFORM OPERATION
 // ========================================
 
 async function performOperation(operation) {
@@ -286,16 +261,23 @@ async function performOperation(operation) {
   const key = keyInput.value;
 
   try {
-    validateInput(message, operation.toLowerCase());
+    validateInput(
+      message,
+
+      operation.toLowerCase(),
+    );
 
     showLoading();
 
     await new Promise((resolve) => setTimeout(resolve, 250));
 
     let result;
+
     let steps;
 
     switch (selectedAlgorithm) {
+      // Caesar
+
       case "caesar":
         result =
           operation === "Encrypt"
@@ -306,6 +288,8 @@ async function performOperation(operation) {
 
         break;
 
+      // Vigenere
+
       case "vigenere":
         result =
           operation === "Encrypt"
@@ -315,6 +299,32 @@ async function performOperation(operation) {
         steps = getVigenereSteps(message, key, result);
 
         break;
+
+      // Playfair
+
+      case "playfair":
+        result =
+          operation === "Encrypt"
+            ? playfairEncrypt(message, key)
+            : playfairDecrypt(message, key);
+
+        steps = getPlayfairSteps(message, key, result);
+
+        break;
+
+      // Monoalphabetic
+
+      case "monoalphabetic":
+        result =
+          operation === "Encrypt"
+            ? monoalphabeticEncrypt(message, key)
+            : monoalphabeticDecrypt(message, key);
+
+        steps = getMonoalphabeticSteps(message, key, result);
+
+        break;
+
+      // RSA
 
       case "rsa":
         if (!rsaKeys) {
@@ -327,26 +337,6 @@ async function performOperation(operation) {
             : rsaDecrypt(message, rsaKeys.privateKey);
 
         steps = getRSASteps(message, result, rsaKeys, operation);
-
-        break;
-
-      case "des":
-        result =
-          operation === "Encrypt"
-            ? desEncrypt(message, key)
-            : desDecrypt(message, key);
-
-        steps = getDESSteps(message, result, operation);
-
-        break;
-
-      case "aes":
-        result =
-          operation === "Encrypt"
-            ? aesEncrypt(message, key)
-            : aesDecrypt(message, key);
-
-        steps = getAESSteps(message, result, operation);
 
         break;
 
@@ -382,136 +372,201 @@ async function performOperation(operation) {
 
 function renderVisualization(steps) {
   visualizationContent.innerHTML = `
+
         <div class="step-list">
+
             ${steps
               .map(
                 (step, index) => `
+
                             <div class="step-item">
+
                                 <strong>
+
                                     Step ${index + 1}:
+
                                 </strong>
+
                                 ${escapeHTML(step)}
+
                             </div>
+
                         `,
               )
               .join("")}
+
         </div>
+
     `;
 }
 
 // ========================================
-// BUTTON EVENTS
+// ENCRYPT BUTTON
 // ========================================
 
-encryptBtn.addEventListener("click", () => performOperation("Encrypt"));
+encryptBtn.addEventListener(
+  "click",
 
-decryptBtn.addEventListener("click", () => performOperation("Decrypt"));
+  () => performOperation("Encrypt"),
+);
 
 // ========================================
-// CLEAR BUTTONS
+// DECRYPT BUTTON
 // ========================================
 
-document.getElementById("clearMessage").addEventListener("click", () => {
-  messageInput.value = "";
+decryptBtn.addEventListener(
+  "click",
 
-  messageInput.focus();
-});
+  () => performOperation("Decrypt"),
+);
 
-document.getElementById("clearKey").addEventListener("click", () => {
-  keyInput.value = "";
+// ========================================
+// CLEAR MESSAGE
+// ========================================
 
-  keyInput.focus();
-});
+document.getElementById("clearMessage").addEventListener(
+  "click",
+
+  () => {
+    messageInput.value = "";
+
+    messageInput.focus();
+  },
+);
+
+// ========================================
+// CLEAR KEY
+// ========================================
+
+document.getElementById("clearKey").addEventListener(
+  "click",
+
+  () => {
+    keyInput.value = "";
+
+    keyInput.focus();
+  },
+);
 
 // ========================================
 // COPY RESULT
 // ========================================
 
-document.getElementById("copyResult").addEventListener("click", async () => {
-  if (!resultOutput.value) {
-    showError("There is no result to copy.");
+document.getElementById("copyResult").addEventListener(
+  "click",
 
-    return;
-  }
+  async () => {
+    if (!resultOutput.value) {
+      showError("There is no result to copy.");
 
-  try {
-    await navigator.clipboard.writeText(resultOutput.value);
+      return;
+    }
 
-    alert("Result copied successfully.");
-  } catch {
-    showError("Unable to copy the result.");
-  }
-});
+    try {
+      await navigator.clipboard.writeText(resultOutput.value);
+
+      alert("Result copied successfully.");
+    } catch {
+      showError("Unable to copy the result.");
+    }
+  },
+);
 
 // ========================================
 // DOWNLOAD RESULT
 // ========================================
 
-document.getElementById("downloadResult").addEventListener("click", () => {
-  if (!resultOutput.value) {
-    showError("There is no result to download.");
+document.getElementById("downloadResult").addEventListener(
+  "click",
 
-    return;
-  }
+  () => {
+    if (!resultOutput.value) {
+      showError("There is no result to download.");
 
-  const blob = new Blob([resultOutput.value], {
-    type: "text/plain",
-  });
+      return;
+    }
 
-  const url = URL.createObjectURL(blob);
+    const blob = new Blob(
+      [resultOutput.value],
 
-  const link = document.createElement("a");
+      {
+        type: "text/plain",
+      },
+    );
 
-  link.href = url;
+    const url = URL.createObjectURL(blob);
 
-  link.download = `cryptolab-${selectedAlgorithm}-result.txt`;
+    const link = document.createElement("a");
 
-  link.click();
+    link.href = url;
 
-  URL.revokeObjectURL(url);
-});
+    link.download = `cryptolab-${selectedAlgorithm}-result.txt`;
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+  },
+);
 
 // ========================================
 // TESTING
 // ========================================
 
-document
-  .getElementById("runTests")
-  .addEventListener("click", displayTestResults);
+document.getElementById("runTests").addEventListener(
+  "click",
+
+  displayTestResults,
+);
 
 // ========================================
 // HISTORY
 // ========================================
 
-document.getElementById("clearHistory").addEventListener("click", () => {
-  if (confirm("Are you sure you want to clear all history?")) {
-    clearAllHistory();
-  }
-});
+document.getElementById("clearHistory").addEventListener(
+  "click",
 
-document
-  .getElementById("exportHistory")
-  .addEventListener("click", exportHistoryJSON);
+  () => {
+    if (confirm("Are you sure you want to clear all history?")) {
+      clearAllHistory();
+    }
+  },
+);
+
+document.getElementById("exportHistory").addEventListener(
+  "click",
+
+  exportHistoryJSON,
+);
 
 // ========================================
 // KEYBOARD SHORTCUTS
 // ========================================
 
-document.addEventListener("keydown", (event) => {
-  if (event.ctrlKey && event.shiftKey && event.key === "Enter") {
-    event.preventDefault();
+document.addEventListener(
+  "keydown",
 
-    decryptBtn.click();
+  (event) => {
+    // Ctrl + Shift + Enter
+    // Decrypt
 
-    return;
-  }
+    if (event.ctrlKey && event.shiftKey && event.key === "Enter") {
+      event.preventDefault();
 
-  if (event.ctrlKey && event.key === "Enter") {
-    event.preventDefault();
+      decryptBtn.click();
 
-    encryptBtn.click();
-  }
-});
+      return;
+    }
+
+    // Ctrl + Enter
+    // Encrypt
+
+    if (event.ctrlKey && event.key === "Enter") {
+      event.preventDefault();
+
+      encryptBtn.click();
+    }
+  },
+);
 
 // ========================================
 // DYNAMIC COPYRIGHT YEAR
@@ -527,8 +582,12 @@ if (yearElement) {
 // INITIALIZATION
 // ========================================
 
-document.addEventListener("DOMContentLoaded", () => {
-  selectAlgorithm("caesar");
+document.addEventListener(
+  "DOMContentLoaded",
 
-  renderHistory();
-});
+  () => {
+    selectAlgorithm("caesar");
+
+    renderHistory();
+  },
+);

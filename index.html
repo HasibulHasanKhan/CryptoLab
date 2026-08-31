@@ -7,90 +7,72 @@
 
     <meta
       name="description"
-      content="CipherLab - Interactive Cryptography Algorithm Visualizer and Encryption Tool"
+      content="CryptoLab - Interactive Cryptography Algorithm Visualizer and Encryption Tool"
     />
 
     <meta
       name="keywords"
-      content="cryptography, RSA, DES, AES, Caesar, Vigenere, encryption"
+      content="cryptography, RSA, Caesar, Vigenere, Playfair, Monoalphabetic, encryption"
     />
 
-    <meta name="author" content="CipherLab" />
+    <meta name="author" content="CryptoLab" />
 
-    <title>CipherLab| Cryptography Algorithm Visualizer</title>
+    <title>CryptoLab | Cryptography Algorithm Visualizer</title>
 
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
     <!-- Loading -->
+
     <div id="loading" class="loading-overlay">
       <div class="loader"></div>
+
       <p>Processing cryptographic operation...</p>
     </div>
 
     <!-- Navbar -->
+
     <nav class="navbar">
       <div class="nav-container">
-        <a href="#home" class="logo"> 🔐 CipherLab </a>
+        <a href="#home" class="logo"> 🔐 CryptoLab </a>
 
         <div class="nav-links">
-          <a href="#home">Home</a>
-          <a href="#algorithms">Algorithms</a>
-          <a href="#comparison">Compare</a>
-          <a href="#testing">Testing</a>
-          <a href="#history">History</a>
+          <a href="#home"> Home </a>
+
+          <a href="#algorithms"> Algorithms </a>
+
+          <a href="#comparison"> Compare </a>
+
+          <a href="#testing"> Testing </a>
+
+          <a href="#history"> History </a>
         </div>
       </div>
     </nav>
 
     <main>
       <!-- Hero -->
+
       <section id="home" class="hero">
         <div class="container">
           <h1>
             Interactive Cryptography
-            <span>Algorithm Visualizer</span>
+
+            <span> Algorithm Visualizer </span>
           </h1>
 
           <p>
-            Learn, visualize, encrypt and decrypt messages using classical,
-            symmetric and asymmetric cryptographic algorithms.
+            Learn, visualize, encrypt and decrypt messages using classical and
+            asymmetric cryptographic algorithms.
           </p>
-
-          <!-- Student & Teacher Information -->
-          <div class="project-info">
-            <div class="student-info">
-              <h3>Developed By</h3>
-
-              <p><strong>Name:</strong> Hasibul Hasan Khan</p>
-
-              <p><strong>Student ID:</strong> 212902059</p>
-              <p><strong>Name:</strong> MD Rayhan Sarker</p>
-
-              <p><strong>Student ID:</strong> 221902260</p>
-              <p><strong>Name:</strong> Md.Rahul Shaikh</p>
-
-              <p><strong>Student ID:</strong> 231902055</p>
-              <p><strong>Department:</strong> Computer Science & Engineering</p>
-            </div>
-
-            <div class="teacher-info">
-              <h3>Course Teacher</h3>
-
-              <p><strong>Name:</strong> Md. Sabbir Hosen Mamun</p>
-
-              <p><strong>Department:</strong> Computer Science & Engineering</p>
-
-              <p><strong>Course:</strong> Cyber Security and Cryptography</p>
-            </div>
-          </div>
 
           <a href="#algorithms" class="primary-btn"> Explore Algorithms </a>
         </div>
       </section>
 
       <!-- Algorithms -->
+
       <section id="algorithms" class="section">
         <div class="container">
           <div class="section-heading">
@@ -102,40 +84,61 @@
           </div>
 
           <div class="algorithm-grid">
+            <!-- Caesar -->
+
             <button class="algorithm-card active" data-algorithm="caesar">
-              <span class="algorithm-icon">🔄</span>
+              <span class="algorithm-icon"> 🔄 </span>
+
               <h3>Caesar Cipher</h3>
-              <p>Classical substitution cipher.</p>
+
+              <p>Classical substitution cipher using a shift.</p>
             </button>
+
+            <!-- Vigenere -->
 
             <button class="algorithm-card" data-algorithm="vigenere">
-              <span class="algorithm-icon">🔤</span>
+              <span class="algorithm-icon"> 🔤 </span>
+
               <h3>Vigenère Cipher</h3>
-              <p>Keyword based classical encryption.</p>
+
+              <p>Keyword based polyalphabetic encryption.</p>
             </button>
+
+            <!-- Playfair -->
+
+            <button class="algorithm-card" data-algorithm="playfair">
+              <span class="algorithm-icon"> 🔐 </span>
+
+              <h3>Playfair Cipher</h3>
+
+              <p>Digraph substitution using a 5×5 matrix.</p>
+            </button>
+
+            <!-- Monoalphabetic -->
+
+            <button class="algorithm-card" data-algorithm="monoalphabetic">
+              <span class="algorithm-icon"> 🔠 </span>
+
+              <h3>Monoalphabetic Cipher</h3>
+
+              <p>Fixed alphabet substitution encryption.</p>
+            </button>
+
+            <!-- RSA -->
 
             <button class="algorithm-card" data-algorithm="rsa">
-              <span class="algorithm-icon">🔑</span>
+              <span class="algorithm-icon"> 🔑 </span>
+
               <h3>RSA</h3>
+
               <p>Public key asymmetric cryptography.</p>
-            </button>
-
-            <button class="algorithm-card" data-algorithm="des">
-              <span class="algorithm-icon">🛡️</span>
-              <h3>DES</h3>
-              <p>16-round symmetric block cipher.</p>
-            </button>
-
-            <button class="algorithm-card" data-algorithm="aes">
-              <span class="algorithm-icon">⚡</span>
-              <h3>AES</h3>
-              <p>Modern symmetric encryption concept.</p>
             </button>
           </div>
         </div>
       </section>
 
       <!-- Workspace -->
+
       <section class="section workspace-section">
         <div class="container">
           <div class="section-heading">
@@ -147,7 +150,8 @@
           </div>
 
           <div class="workspace-grid">
-            <!-- Input -->
+            <!-- Input Panel -->
+
             <div class="panel">
               <h3>Input</h3>
 
@@ -161,6 +165,8 @@
               <button id="clearMessage" class="secondary-btn" type="button">
                 Clear Message
               </button>
+
+              <!-- Key -->
 
               <div id="keyContainer" class="input-group">
                 <label for="keyInput"> Key / Shift </label>
@@ -177,7 +183,8 @@
                 </button>
               </div>
 
-              <!-- RSA Key Generator -->
+              <!-- RSA Controls -->
+
               <div id="rsaControls" class="rsa-controls hidden">
                 <h4>RSA Key Generation</h4>
 
@@ -216,6 +223,8 @@
                 <div id="rsaKeyOutput" class="key-output"></div>
               </div>
 
+              <!-- Buttons -->
+
               <div class="action-buttons">
                 <button id="encryptBtn" class="primary-btn" type="button">
                   🔒 Encrypt
@@ -231,7 +240,8 @@
               </p>
             </div>
 
-            <!-- Output -->
+            <!-- Result Panel -->
+
             <div class="panel">
               <h3>Result</h3>
 
@@ -253,6 +263,8 @@
                 </button>
               </div>
 
+              <!-- Visualization -->
+
               <div id="visualization" class="visualization">
                 <h4>Algorithm Visualization</h4>
 
@@ -263,11 +275,14 @@
             </div>
           </div>
 
+          <!-- Error -->
+
           <div id="errorMessage" class="error-message hidden"></div>
         </div>
       </section>
 
       <!-- Comparison -->
+
       <section id="comparison" class="section">
         <div class="container">
           <div class="section-heading">
@@ -279,9 +294,13 @@
               <thead>
                 <tr>
                   <th>Algorithm</th>
+
                   <th>Type</th>
+
                   <th>Key</th>
+
                   <th>Security</th>
+
                   <th>Use</th>
                 </tr>
               </thead>
@@ -289,42 +308,62 @@
               <tbody>
                 <tr>
                   <td>Caesar</td>
+
                   <td>Classical</td>
+
                   <td>Shift</td>
+
                   <td>Very Low</td>
+
                   <td>Learning</td>
                 </tr>
 
                 <tr>
                   <td>Vigenère</td>
+
                   <td>Classical</td>
+
                   <td>Keyword</td>
+
                   <td>Low</td>
+
+                  <td>Learning</td>
+                </tr>
+
+                <tr>
+                  <td>Playfair</td>
+
+                  <td>Classical</td>
+
+                  <td>Keyword</td>
+
+                  <td>Low</td>
+
+                  <td>Learning</td>
+                </tr>
+
+                <tr>
+                  <td>Monoalphabetic</td>
+
+                  <td>Classical</td>
+
+                  <td>Substitution Alphabet</td>
+
+                  <td>Low</td>
+
                   <td>Learning</td>
                 </tr>
 
                 <tr>
                   <td>RSA</td>
+
                   <td>Asymmetric</td>
+
                   <td>Public / Private</td>
+
                   <td>High*</td>
+
                   <td>Key Exchange</td>
-                </tr>
-
-                <tr>
-                  <td>DES</td>
-                  <td>Symmetric</td>
-                  <td>56-bit</td>
-                  <td>Obsolete</td>
-                  <td>Learning</td>
-                </tr>
-
-                <tr>
-                  <td>AES</td>
-                  <td>Symmetric</td>
-                  <td>128/192/256-bit</td>
-                  <td>High</td>
-                  <td>Modern Encryption</td>
                 </tr>
               </tbody>
             </table>
@@ -333,6 +372,7 @@
       </section>
 
       <!-- Testing -->
+
       <section id="testing" class="section">
         <div class="container">
           <div class="section-heading">
@@ -348,18 +388,21 @@
 
             <div class="test-stats">
               <div class="stat-card">
-                <span>Total</span>
-                <strong id="totalTests">0</strong>
+                <span> Total </span>
+
+                <strong id="totalTests"> 0 </strong>
               </div>
 
               <div class="stat-card">
-                <span>Passed</span>
-                <strong id="passedTests">0</strong>
+                <span> Passed </span>
+
+                <strong id="passedTests"> 0 </strong>
               </div>
 
               <div class="stat-card">
-                <span>Failed</span>
-                <strong id="failedTests">0</strong>
+                <span> Failed </span>
+
+                <strong id="failedTests"> 0 </strong>
               </div>
             </div>
 
@@ -371,6 +414,7 @@
       </section>
 
       <!-- History -->
+
       <section id="history" class="section">
         <div class="container">
           <div class="section-heading">
@@ -393,50 +437,68 @@
         </div>
       </section>
 
-      <div class="project-disclaimer">
-        <strong>Educational Notice:</strong>
+      <!-- Disclaimer -->
 
-        CipherLab is designed for learning and demonstrating cryptographic
+      <div class="project-disclaimer">
+        <strong> Educational Notice: </strong>
+
+        CryptoLab is designed for learning and demonstrating cryptographic
         concepts. It should not be used to protect real confidential
         information.
       </div>
     </main>
 
     <!-- Footer -->
+
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-brand">
-          <h3>🔐 CipherLab</h3>
+          <h3>🔐 CryptoLab</h3>
 
           <p>Interactive Cryptography Algorithm Visualizer & Encryption Tool</p>
         </div>
 
         <div class="footer-links">
-          <a href="#home">Home</a>
-          <a href="#algorithms">Algorithms</a>
-          <a href="#comparison">Compare</a>
-          <a href="#testing">Testing</a>
-          <a href="#history">History</a>
+          <a href="#home"> Home </a>
+
+          <a href="#algorithms"> Algorithms </a>
+
+          <a href="#comparison"> Compare </a>
+
+          <a href="#testing"> Testing </a>
+
+          <a href="#history"> History </a>
         </div>
       </div>
 
       <div class="footer-bottom">
         <p>
-          © <span id="currentYear"></span>
-          CipherLab . Educational Project(Green University).
+          ©
+          <span id="currentYear"></span>
+
+          CryptoLab. Educational Project.
         </p>
 
         <p>Cyber Security & Cryptography</p>
       </div>
     </footer>
 
+    <!-- JavaScript -->
+
     <script src="js/caesar.js"></script>
+
     <script src="js/vigenere.js"></script>
+
+    <script src="js/playfair.js"></script>
+
+    <script src="js/monoalphabetic.js"></script>
+
     <script src="js/rsa.js"></script>
-    <script src="js/des.js"></script>
-    <script src="js/aes.js"></script>
+
     <script src="js/history.js"></script>
+
     <script src="js/tests.js"></script>
+
     <script src="js/app.js"></script>
   </body>
 </html>
